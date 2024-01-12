@@ -129,7 +129,7 @@ func main() {
 
 func iferr(err error) {
 	if err != nil {
-		panic(err)
+		slog.Error(err.Error())
 	}
 }
 
