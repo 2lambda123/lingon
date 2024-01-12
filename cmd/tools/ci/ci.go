@@ -148,9 +148,7 @@ func TagRelease(tag, msg string) error {
 	cmd := exec.Command("git", "tag", "-a", tag, "-s", "-m", msg)
 	slog.Info("exec", slog.String("cmd", cmd.String()))
 	_, err := cmd.CombinedOutput()
-	if err != nil {
-		slog.Error(err.Error())
-	}
+	iferr(err)
 	cmdgp := exec.Command("git", "push", "--tags")
 	slog.Info("exec", slog.String("cmd", cmdgp.String()))
 	_, err = cmdgp.CombinedOutput()
@@ -289,7 +287,7 @@ func docRun(args ...string) {
 	if err := cmd.Run(); err != nil {
 		_ = os.Stderr.Sync()
 		_ = os.Stdout.Sync()
-		panic(err)
+		slog.Error(err.Error())
 	}
 }
 
