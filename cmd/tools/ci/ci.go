@@ -276,7 +276,7 @@ func HasGitDiff() {
 }
 
 // docRun runs a command in the docs directory
-func docRun(args ...string) {
+func docRun(args ...string) error {
 	cmd := exec.Command(args[0], args[1:]...) //nolint:gosec
 	slog.Info("exec", slog.String("cmd", cmd.String()))
 	defer slog.Info("exec", slog.String("cmd", args[0]+" done"))
