@@ -255,7 +255,9 @@ func Go(args ...string) error {
 }
 
 func GoRun(args ...string) error {
-	return Go(append([]string{"run", mod}, args...)...)
+	if err := Go(append([]string{"run", mod}, args...)...); err != nil {
+	slog.Error(err.Error())
+}
 }
 
 // CopyWriteFix is hashicorp/copywrite to fix license headers
@@ -274,6 +276,7 @@ func HasGitDiff() {
 	slog.Info("exec", slog.String("cmd", cmd.String()))
 	b, err := cmd.CombinedOutput()
 	if err != nil {
+	slog.Error(err.Error())
 	slog.Error(err.Error())
 }
 	if len(b) == 0 {
