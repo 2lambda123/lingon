@@ -325,9 +325,7 @@ func Sbom() error {
 	cmd.Stdout = io.Discard
 	cmd.Stderr = os.Stderr
 	cmd.Env = append(os.Environ(), "SYFT_QUIET=true")
-	if err := cmd.Run(); err != nil {
-		return fmt.Errorf("go: %s", err)
-	}
+	cmd.Run()
 
 	return nil
 }
