@@ -136,7 +136,10 @@ func iferr(err error) {
 func Release() {
 	d := time.Now().UTC().Format("2006-01-02")
 	ssha, err := shortSha()
-	iferr(err)
+	if err != nil {
+	slog.Error(err.Error())
+	return
+}
 	v := d + "-" + ssha
 	iferr(TagRelease(v, "Release "+v))
 }
@@ -146,7 +149,7 @@ func TagRelease(tag, msg string) error {
 	slog.Info("exec", slog.String("cmd", cmd.String()))
 	_, err := cmd.CombinedOutput()
 	if err != nil {
-		return err
+		slog.Error(err.Error())
 	}
 	cmdgp := exec.Command("git", "push", "--tags")
 	slog.Info("exec", slog.String("cmd", cmdgp.String()))
