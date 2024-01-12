@@ -113,7 +113,7 @@ func main() {
 		Fix()
 	}
 	if pr {
-		PullRequest()
+		PullRequestChecks()
 	}
 	if scan {
 		Scan()
@@ -215,7 +215,7 @@ func Fix() {
 
 func PullRequest() {
 	Fix()
-	iferr(Go("test", "-v", recDir))
+	iferr(PullRequestChecks())
 	fmt.Println("✅ pull request checks passed")
 }
 
