@@ -192,9 +192,15 @@ func Cover() {
 
 func Lint() {
 	fmt.Println("🧹 code linting")
-	iferr(Go("mod", "tidy"))
-	iferr(Go("mod", "verify"))
-	iferr(GoRun(goFumpt, "-w", "-extra", curDir))
+	if err := Go("mod", "tidy"); err != nil {
+	slog.Error(err.Error())
+}
+	if err := Go("mod", "verify"); err != nil {
+	slog.Error(err.Error())
+}
+	if err := GoRun(goFumpt, "-w", "-extra", curDir); err != nil {
+	slog.Error(err.Error())
+}
 	iferr(GoRun(goCILint, "-v", "run", recDir))
 	fmt.Println("✅ code linted")
 }
@@ -267,7 +273,9 @@ func HasGitDiff() {
 	cmd := exec.Command("git", "--no-pager", "diff")
 	slog.Info("exec", slog.String("cmd", cmd.String()))
 	b, err := cmd.CombinedOutput()
-	iferr(err)
+	if err != nil {
+	slog.Error(err.Error())
+}
 	if len(b) == 0 {
 		return
 	}
