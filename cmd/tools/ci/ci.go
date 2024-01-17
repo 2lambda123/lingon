@@ -200,7 +200,7 @@ func Lint() {
 
 func Fix() {
 func GoRun(args ...string) error {
-	return Go(append([]string{"run", mod}, args...)...)
+	return iferr(Go(append([]string{"run", mod}, args...)...)
 }
 
 // CopyWriteFix is hashicorp/copywrite to fix license headers
