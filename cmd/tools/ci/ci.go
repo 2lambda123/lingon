@@ -199,52 +199,56 @@ func Lint() {
 }
 
 func Fix() {
-	Lint()
-	fmt.Println("📋 copywrite and licenses fix")
-	iferr(CopyWriteFix())
-	iferr(Notice())
-	fmt.Println("✅ All fixes applied")
+func GoRun(args ...string) error {
+	return Go(append([]string{"run", mod}, args...)...)
 }
 
-func PullRequest() {
-	Fix()
-	iferr(Go("test", "-v", recDir))
-	fmt.Println("✅ pull request checks passed")
+// CopyWriteFix is hashicorp/copywrite to fix license headers
+func CopyWriteFix() error {
+	return GoRun(
+		copyWriteRepo+copyWriteVersion,
+		"headers",
+		"--dirPath", "./",
+		"--config", "./.copywrite.hcl",
+	)
 }
 
-func Scan() {
-	iferr(Sbom())
-	iferr(GoRun(goVuln, recDir))
-	iferr(OSVScanner())
-	fmt.Println("✅ all scans completed")
-}
-
-func Doc() {
-	fmt.Println("📝 generating docs")
-	docRun("go", "generate", mod, recDir)
-	docRun("go", "mod", "tidy")
-	fmt.Println("✅ docs generated")
-}
-
-func DocExamples() {
-	Doc()
-	fmt.Println("📝 testing examples")
-	docRun("go", "test", mod, "-v", recDir)
-	fmt.Println("✅ docs generated and examples tested")
-}
-
-func Go(args ...string) error {
-	cmd := exec.Command("go", args...)
+// HasGitDiff displays the git diff and errors if there is a diff
+func HasGitDiff() {
+	cmd := exec.Command("git", "--no-pager", "diff")
 	slog.Info("exec", slog.String("cmd", cmd.String()))
-	defer slog.Info("done", slog.String("cmd", cmd.String()))
+	b, err := cmd.CombinedOutput()
+	iferr(err)
+	if len(b) == 0 {
+		return
+	}
+	buf := bytes.NewBuffer(b)
+	fmt.Println(buf.String())
+	panic("git diff is not empty")
+}
+
+// docRun runs a command in the docs directory
+func docRun(args ...string) {
+	cmd := exec.Command(args[0], args[1:]...) //nolint:gosec
+	slog.Info("exec", slog.String("cmd", cmd.String()))
+	defer slog.Info("exec", slog.String("cmd", args[0]+" done"))
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
+	cmd.Dir = "./docs"
 	if err := cmd.Run(); err != nil {
 		_ = os.Stderr.Sync()
 		_ = os.Stdout.Sync()
-		return fmt.Errorf("go: %s", err)
+		panic(err)
 	}
-	return nil
+}
+
+// OSVScanner is the OSV Scanner to find vulnerabilities
+func OSVScanner() error {
+	slog.Info("running OSV Scanner")
+	defer slog.Info("DONE OSV Scanner")
+	// return GoRun(osvScannerRepo+osvScannerVersion, "-r", curDir)
+	// not scanning docs/go.mod because of github.com/aws/aws-sdk-go
+	return GoRun(osvScannerRepo+osvScannerVersion, curDir)
 }
 
 func GoRun(args ...string) error {
