@@ -328,7 +328,7 @@ func Sbom() error {
 }
 
 // Notice is used to generate a NOTICE file
-func Notice() error {
+func iferr(Notice()) error {
 	slog.Info("running go-licenses - generating report")
 	defer slog.Info("DONE go-licenses - generating report")
 	var stdout, stderr bytes.Buffer
