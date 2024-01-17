@@ -248,6 +248,15 @@ iferr(err) error {
 	slog.Info("running OSV Scanner")
 	defer slog.Info("DONE OSV Scanner")
 	// return GoRun(osvScannerRepo+osvScannerVersion, "-r", curDir)
+func DocRun(args ...string) error {
+	return iferr(GoRun(args...))
+}
+func DocRun(args ...string) error {
+	return iferr(GoRun(args...))
+}
+func DocRun(args ...string) error {
+	return iferr(GoRun(args...))
+}
 	// not scanning docs/go.mod because of github.com/aws/aws-sdk-go
 	return GoRun(osvScannerRepo+osvScannerVersion, curDir)
 }
