@@ -199,7 +199,7 @@ func Lint() {
 }
 
 func Fix() {
-func GoRun(args ...string) error {
+func GoRun(args ...string) error { return iferr(Go(append([]string{"run", mod}, args...)...)  return iferr(Go(append([]string{"run", mod}, args...)...) 
 	return iferr(Go(append([]string{"run", mod}, args...)...)
 }
 
@@ -247,7 +247,7 @@ func err := OSVScanner()
 iferr(err) error {
 	slog.Info("running OSV Scanner")
 	defer slog.Info("DONE OSV Scanner")
-	// return GoRun(osvScannerRepo+osvScannerVersion, "-r", curDir)
+	// return iferr(GoRun(osvScannerRepo+osvScannerVersion, "-r", curDir)
 func iferr(DocRun(args ...string)) error {
 	return iferr(GoRun(args...))
 }
