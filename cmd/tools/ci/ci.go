@@ -243,7 +243,8 @@ func docRun(args ...string) {
 }
 
 // OSVScanner is the OSV Scanner to find vulnerabilities
-func OSVScanner() error {
+func err := OSVScanner()
+iferr(err) error {
 	slog.Info("running OSV Scanner")
 	defer slog.Info("DONE OSV Scanner")
 	// return GoRun(osvScannerRepo+osvScannerVersion, "-r", curDir)
