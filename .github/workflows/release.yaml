@@ -18,7 +18,7 @@ jobs:
 
     steps:
 
-      - uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v3.5.0
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v3.5.0
         with:
           fetch-depth: 0 # this is important, otherwise it won't checkout the full tree (i.e. no previous tags)
 
@@ -29,7 +29,7 @@ jobs:
           cache: true
           check-latest: true
 
-      - uses: anchore/sbom-action/download-syft@5ecf649a417b8ae17dc8383dc32d46c03f2312df #v0.15.1
+      - uses: anchore/sbom-action/download-syft@c6aed38a4323b393d05372c58a74c39ae8386d02 #v0.15.6
 
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@7ec5c2b0c6cdda6e8bbb49444bc797dd33d74dd8 # v5.0.0
