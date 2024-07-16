@@ -1,7 +1,7 @@
 module github.com/volvo-cars/lingon
 
 go 1.21
-toolchain go1.22.4
+toolchain go1.22.5
 
 require (
 	dario.cat/mergo v1.0.0
@@ -14,7 +14,7 @@ require (
 	github.com/tidwall/gjson v1.17.1
 	github.com/tidwall/sjson v1.2.5
 	github.com/veggiemonk/strcase v0.0.0-20230627213939-a882c834bcab
-	github.com/zclconf/go-cty v1.14.4
+	github.com/zclconf/go-cty v1.15.0
 	golang.org/x/exp v0.0.0-20230713183714-613f0c0eb8a1
 	golang.org/x/tools v0.23.0
 	gopkg.in/yaml.v3 v3.0.1
