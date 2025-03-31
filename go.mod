@@ -1,12 +1,12 @@
 module github.com/volvo-cars/lingon
 
 go 1.21
-toolchain go1.23.4
+toolchain go1.24.1
 
 require (
 	dario.cat/mergo v1.0.1
 	github.com/dave/jennifer v1.7.1
-	github.com/go-playground/validator/v10 v10.25.0
+	github.com/go-playground/validator/v10 v10.26.0
 	github.com/google/go-cmp v0.7.0
 	github.com/hashicorp/hcl/v2 v2.23.0
 	github.com/hashicorp/terraform-exec v0.22.0
